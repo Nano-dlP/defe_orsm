@@ -29,58 +29,77 @@
             <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                {% if user.foto_perfil %}
                 <img
                   src="{{ user.foto_perfil.url }}"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
+                {% else %}
+                <img
+                  src="{% static 'AdminLTE-4.0.0-rc4/assets/img/avatar.png' %}"
+                  class="user-image rounded-circle shadow"
+                  alt="User Image"
+                />
+                {% endif %}
+                
                 <span class="d-none d-md-inline">{{ user.first_name }} {{ user.last_name }}</span>
               </a>
               
               {% block user %}
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <!--begin::User Image-->
-                <li class="user-header text-bg-primary">
-                  <div class="row">
-                    <img
-                    src="{{ user.foto_perfil.url }}"
-                      class="rounded-circle shadow"
-                    alt="User Image"
-                  />
-                  </div>
-                  <div class="row">
-                    <p>
-                    <small>{{ user.first_name }} {{ user.last_name }} - {{profesional.profesion}}</small>
-                    </p>
-                    <p>
-                    <small>Usuario desde - {{ user.date_joined|date:"M. Y" }}</small>
-                   </p>
-                  </div>
-                  
-                </li>
-                <!--end::User Image-->
-                <!--begin::Menu Body-->
-                <li class="user-body">
-                  <!--begin::Row-->
-                  <div class="row">
-                    <div class="btn btn-default btn-flat"><a href="{% url 'usuario:editar_perfil' %}">Perfil</a></div>
-                  </div>
-                  <div class="row">
-                    <div class="btn btn-default btn-flat"><a href="{% url 'usuario:cambiar_contrasena' %}">Actualizar contraseña</a></div>
-
-                  </div>
-                  <!--end::Row-->
-                </li>
-                <!--end::Menu Body-->
-                <!--begin::Menu Footer-->
-                <li class="user-footer">
-                  <form action="{% url 'core:logout' %}" method="post" style="display:inline;">
-                      {% csrf_token %}
-                      <button type="submit" class="btn btn-link">Cerrar sesión</button>
-                  </form>
-                </li>
-                <!--end::Menu Footer-->
-              </ul>
+                    <!--begin::User Image-->
+                    <li class="user-header text-bg-primary">
+                        
+                            {% if user.foto_perfil and user.foto_perfil.url %}
+                                <img src="{{ user.foto_perfil.url }}"
+                                    class="user-image rounded-circle shadow mt-2"
+                                    alt="User Image"
+                                />
+                            {% else %}
+                                <img src="{% static 'AdminLTE-4.0.0-rc4/assets/img/avatar.png' %}"
+                                    class="user-image rounded-circle shadow"
+                                    alt="User Image"
+                                />
+                            {% endif %}
+                        
+                        
+                        <div class="row">
+                            <p>
+                                <small>{{ user.first_name }} {{ user.last_name }} - {{ profesional.profesion }}</small>
+                            </p>
+                            <p>
+                                <small>Usuario desde - {{ user.date_joined|date:"M. Y" }}</small>
+                            </p>
+                        </div>
+                        
+                    </li>
+                    <!--end::User Image-->
+                    <!--begin::Menu Body-->
+                    <li class="user-body">
+                        <!--begin::Row-->
+                        <div class="row">
+                            <div class="btn btn-default btn-flat">
+                                <a href="{% url 'usuario:editar_perfil' %}">Perfil</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="btn btn-default btn-flat">
+                                <a href="{% url 'usuario:cambiar_contrasena' %}">Actualizar contraseña</a>
+                            </div>
+                        </div>
+                        <!--end::Row-->
+                    </li>
+                    <!--end::Menu Body-->
+                    <!--begin::Menu Footer-->
+                    <li class="user-footer">
+                        <form action="{% url 'core:logout' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link">Cerrar sesión</button>
+                        </form>
+                    </li>
+                    <!--end::Menu Footer-->
+                </ul>
               {% endblock user %}  
 
             </li>

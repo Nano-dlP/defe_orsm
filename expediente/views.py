@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import View, FormView
 from django.forms import modelformset_factory
 from .models import (ExpedienteJudicialDocumento, 
@@ -50,6 +50,25 @@ class MedioIngresoSelectView(LoginRequiredMixin, FormView):
             return redirect('expediente:expediente_create', medio_id=medio_ingreso_id)
         else:
             return redirect('expediente:medio_ingreso_select')
+
+
+
+    login_url = 'core:login'
+
+    def get(self, request, pk):
+        expediente = get_object_or_404(Expediente, pk=pk)
+        medio = expediente.medio_ingreso.medio_ingreso if expediente.medio_ingreso else ""
+
+        # Redirigir a la vista correspondiente según medio de ingreso
+        if medio == "DEMANDA ESPONTANEA":
+            return redirect('expediente:demanda_espontanea_update', pk=pk)
+        elif medio == "OFICIO POR MAIL":
+            return redirect('expediente:oficio_update', pk=pk)
+        elif medio == "Secretaria":
+            return redirect('expediente:secretaria_update', pk=pk)
+        else:
+            messages.error(request, "No se pudo determinar el tipo de expediente.")
+            return redirect('expediente:expediente_list')
 
 
 class ExpedientePresencialCreateView(LoginRequiredMixin, View):
