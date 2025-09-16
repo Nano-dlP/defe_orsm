@@ -1,0 +1,173 @@
+{% extends 'core/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static '/css/forms.css' %}" />
+{% endblock extra_head %} 
+
+{% block body %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {# Errores generales del formulario #}
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+
+    {# Errores generales del formset, si lo usas aquí #}
+    {% if documento_formset %}
+        {% if documento_formset.non_form_errors %}
+            <div class="alert alert-danger">
+                {{ documento_formset.non_form_errors }}
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <div class="form-group">
+        {{ form.fecha_creacion.label_tag }}
+        {{ form.fecha_creacion }}
+        {% if form.fecha_creacion.errors %}
+            <div class="text-danger">{{ form.fecha_creacion.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.fecha_juzgado.label_tag }}
+        {{ form.fecha_juzgado }}
+        {% if form.fecha_juzgado.errors %}
+            <div class="text-danger">{{ form.fecha_juzgado.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.fecha_recepcion.label_tag }}
+        {{ form.fecha_recepcion }}
+        {% if form.fecha_recepcion.errors %}
+            <div class="text-danger">{{ form.fecha_recepcion.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.sede.label_tag }}
+        {{ form.sede }}
+        {% if form.sede.errors %}
+            <div class="text-danger">{{ form.sede.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.institucion.label_tag }}
+        {{ form.institucion }}
+        {% if form.institucion.errors %}
+            <div class="text-danger">{{ form.institucion.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.medio_ingreso.label_tag }}
+        {{ form.medio_ingreso }}
+        {% if form.medio_ingreso.errors %}
+            <div class="text-danger">{{ form.medio_ingreso.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.tipo_solicitud.label_tag }}
+        {{ form.tipo_solicitud }}
+        {% if form.tipo_solicitud.errors %}
+            <div class="text-danger">{{ form.tipo_solicitud.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.estado_expediente.label_tag }}
+        {{ form.estado_expediente }}
+        {% if form.estado_expediente.errors %}
+            <div class="text-danger">{{ form.estado_expediente.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.grupo_etario.label_tag }}
+        {{ form.grupo_etario }}
+        {% if form.grupo_etario.errors %}
+            <div class="text-danger">{{ form.grupo_etario.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.edad_persona.label_tag }}
+        {{ form.edad_persona }}
+        {% if form.edad_persona.errors %}
+            <div class="text-danger">{{ form.edad_persona.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.situacion_habitacional_hist.label_tag }}
+        {{ form.situacion_habitacional_hist }}
+        {% if form.situacion_habitacional_hist.errors %}
+            <div class="text-danger">{{ form.situacion_habitacional_hist.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.resumen_intervencion.label_tag }}
+        {{ form.resumen_intervencion }}
+        {% if form.resumen_intervencion.errors %}
+            <div class="text-danger">{{ form.resumen_intervencion.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.observaciones.label_tag }}
+        {{ form.observaciones }}
+        {% if form.observaciones.errors %}
+            <div class="text-danger">{{ form.observaciones.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.cuij.label_tag }}
+        {{ form.cuij }}
+        {% if form.cuij.errors %}
+            <div class="text-danger">{{ form.cuij.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.clave_sisfe.label_tag }}
+        {{ form.clave_sisfe }}
+        {% if form.clave_sisfe.errors %}
+            <div class="text-danger">{{ form.clave_sisfe.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.tipo_patrocinio.label_tag }}
+        {{ form.tipo_patrocinio }}
+        {% if form.tipo_patrocinio.errors %}
+            <div class="text-danger">{{ form.tipo_patrocinio.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.expediente_fisico.label_tag }}
+        {{ form.expediente_fisico }}
+        {% if form.expediente_fisico.errors %}
+            <div class="text-danger">{{ form.expediente_fisico.errors }}</div>
+        {% endif %}
+    </div>
+   
+    <h4>Documentos del expediente</h4>
+    {{ documento_formset.management_form }}
+    {% for doc_form in documento_formset %}
+        <div class="form-group">
+            {{ doc_form.nombre.label_tag }}
+            {{ doc_form.nombre }}
+            {% if doc_form.nombre.errors %}
+                <div class="text-danger">{{ doc_form.nombre.errors }}</div>
+            {% endif %}
+            {{ doc_form.archivo.label_tag }}
+            {{ doc_form.archivo }}
+            {% if doc_form.archivo.errors %}
+                <div class="text-danger">{{ doc_form.archivo.errors }}</div>
+            {% endif %}
+            {# Si can_delete=True: #}
+            {% if doc_form.can_delete %}
+                {{ doc_form.DELETE }} Eliminar
+            {% endif %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+    
+{% endblock body %}
