@@ -1,0 +1,115 @@
+class ExpedientePorOficio(models.Model):
+    identificador = models.OneToOneField(ExpedienteIdentificador, on_delete=models.CASCADE)
+    # otros campos...
+
+class ExpedientePorSolicitante(models.Model):
+    identificador = models.OneToOneField(ExpedienteIdentificador, on_delete=models.CASCADE)
+    # otros campos...
+
+from .models import ExpedienteIdentificador, ExpedientePorOficio
+
+def crear_expediente_oficio(request):
+    # Supón que tienes la sede y abreviatura
+    sede = ...  # Obtén la sede según tu lógica
+    abreviatura = sede.abreviatura.upper() if sede else None
+
+    # Crear el identificador
+    identificador = ExpedienteIdentificador.objects.create(
+        sede=sede,
+        abreviatura=abreviatura,
+        fecha_creacion=timezone.now()
+    )
+
+    # Crear el expediente y asignar el identificador
+    expediente = ExpedientePorOficio.objects.create(
+        identificador=identificador,
+        # otros datos del expediente...
+    )
+    # Continúa con tu lógica...
+
+
+def crear_identificador(sede, abreviatura):
+    return ExpedienteIdentificador.objects.create(
+        sede=sede,
+        abreviatura=abreviatura,
+        fecha_creacion=timezone.now()
+    )
+
+
+
+FORMULARIO PARA IGRESAR PERSONA
+
+Para formularios como “Ingresar persona”:
+En vez de un modal que bloquea, puedes usar un panel lateral (offcanvas en Bootstrap 5) o mostrar el formulario en una sección de la página, manteniendo el top bar siempre activo.
+
+Ejemplo con Bootstrap Offcanvas:
+
+<!-- Botón para abrir offcanvas -->
+<button class="btn btn-primary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasPersona">
+  Ingresar persona
+</button>
+
+<!-- Offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasPersona">
+  <div class="offcanvas-header">
+    <h5>Ingresar persona</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <!-- Formulario aquí -->
+  </div>
+</div>
+
+Imagen de perfil:
+<img src="{{ user.foto_perfil.url }}" class="user-image rounded-circle shadow" alt="User Image" />
+
+
+Incluye las URLs de recuperación de contraseña
+En tu archivo principal urls.py (probablemente en la carpeta del proyecto):
+
+from django.contrib.auth import views as auth_views
+
+urlpatterns = [
+    # ... otras rutas ...
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+]
+
+
+Configura el envío de correos en settings.py
+(Ejemplo para Gmail, puedes adaptar según tu proveedor)
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'tu-correo@gmail.com'
+EMAIL_HOST_PASSWORD = 'tu-contraseña-app'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+
+
+Templates personalizados (opcional)
+Crea estos archivos en tu carpeta de templates (registration/):
+
+registration/password_reset_form.html
+registration/password_reset_done.html
+registration/password_reset_confirm.html
+registration/password_reset_complete.html
+
+Ejemplo de password_reset_form.html:
+
+{% block content %}
+  <h2>Recuperar contraseña</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.email.label_tag }}
+    {{ form.email }}
+    <button type="submit">Enviar enlace</button>
+  </form>
+{% endblock %}
+
+
+Agrega el enlace en tu login
+<a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>

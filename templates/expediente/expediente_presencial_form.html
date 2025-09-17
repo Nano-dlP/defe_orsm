@@ -1,0 +1,38 @@
+{% extends 'core/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static '/css/forms.css' %}" />
+{% endblock extra_head %} 
+
+
+{% block body %}
+
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <h4>Documentos</h4>
+    {{ documento_formset.management_form }}
+    {% for doc_form in documento_formset %}
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ doc_form.nombre }}
+            </div>
+            <div class="col-md-6">
+                {{ doc_form.archivo }}
+            </div>
+            <div class="col-md-2">
+                {% if doc_form.DELETE %}
+                    {{ doc_form.DELETE }}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+{% endblock body %}

@@ -1,0 +1,191 @@
+{% extends 'core/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static '/css/forms.css' %}" />
+{% endblock extra_head %} 
+
+{% block body %}
+
+<div class="container py-4">
+    <h2 class="mb-4">Nuevo Expediente Oficio</h2>
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <!-- Errores generales -->
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="{{ form.fecha_creacion.id_for_label }}" class="form-label">{{ form.fecha_creacion.label }}</label>
+                {{ form.fecha_creacion }}
+                {% if form.fecha_creacion.errors %}
+                    <div class="invalid-feedback d-block">{{ form.fecha_creacion.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.fecha_juzgado.id_for_label }}" class="form-label">{{ form.fecha_juzgado.label }}</label>
+                {{ form.fecha_juzgado }}
+                {% if form.fecha_juzgado.errors %}
+                    <div class="invalid-feedback d-block">{{ form.fecha_juzgado.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.fecha_recepcion.id_for_label }}" class="form-label">{{ form.fecha_recepcion.label }}</label>
+                {{ form.fecha_recepcion }}
+                {% if form.fecha_recepcion.errors %}
+                    <div class="invalid-feedback d-block">{{ form.fecha_recepcion.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-md-6">
+                <label for="{{ form.sede.id_for_label }}" class="form-label">{{ form.sede.label }}</label>
+                {{ form.sede }}
+                {% if form.sede.errors %}
+                    <div class="invalid-feedback d-block">{{ form.sede.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <label for="{{ form.usuario_solicitante.id_for_label }}" class="form-label">{{ form.usuario_solicitante.label }}</label>
+                {{ form.usuario_solicitante }}
+                {% if form.usuario_solicitante.errors %}
+                    <div class="invalid-feedback d-block">{{ form.usuario_solicitante.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-md-4">
+                <label for="{{ form.medio_ingreso.id_for_label }}" class="form-label">{{ form.medio_ingreso.label }}</label>
+                {{ form.medio_ingreso }}
+                {% if form.medio_ingreso.errors %}
+                    <div class="invalid-feedback d-block">{{ form.medio_ingreso.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.tipo_solicitud.id_for_label }}" class="form-label">{{ form.tipo_solicitud.label }}</label>
+                {{ form.tipo_solicitud }}
+                {% if form.tipo_solicitud.errors %}
+                    <div class="invalid-feedback d-block">{{ form.tipo_solicitud.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.estado_expediente.id_for_label }}" class="form-label">{{ form.estado_expediente.label }}</label>
+                {{ form.estado_expediente }}
+                {% if form.estado_expediente.errors %}
+                    <div class="invalid-feedback d-block">{{ form.estado_expediente.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-md-4">
+                <label for="{{ form.grupo_etario.id_for_label }}" class="form-label">{{ form.grupo_etario.label }}</label>
+                {{ form.grupo_etario }}
+                {% if form.grupo_etario.errors %}
+                    <div class="invalid-feedback d-block">{{ form.grupo_etario.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.edad_persona.id_for_label }}" class="form-label">{{ form.edad_persona.label }}</label>
+                {{ form.edad_persona }}
+                {% if form.edad_persona.errors %}
+                    <div class="invalid-feedback d-block">{{ form.edad_persona.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.situacion_habitacional_hist.id_for_label }}" class="form-label">{{ form.situacion_habitacional_hist.label }}</label>
+                {{ form.situacion_habitacional_hist }}
+                {% if form.situacion_habitacional_hist.errors %}
+                    <div class="invalid-feedback d-block">{{ form.situacion_habitacional_hist.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-12">
+                <label for="{{ form.resumen_intervencion.id_for_label }}" class="form-label">{{ form.resumen_intervencion.label }}</label>
+                {{ form.resumen_intervencion }}
+                {% if form.resumen_intervencion.errors %}
+                    <div class="invalid-feedback d-block">{{ form.resumen_intervencion.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-12">
+                <label for="{{ form.observaciones.id_for_label }}" class="form-label">{{ form.observaciones.label }}</label>
+                {{ form.observaciones }}
+                {% if form.observaciones.errors %}
+                    <div class="invalid-feedback d-block">{{ form.observaciones.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+            <div class="col-md-4">
+                <label for="{{ form.cuij.id_for_label }}" class="form-label">{{ form.cuij.label }}</label>
+                {{ form.cuij }}
+                {% if form.cuij.errors %}
+                    <div class="invalid-feedback d-block">{{ form.cuij.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.clave_sisfe.id_for_label }}" class="form-label">{{ form.clave_sisfe.label }}</label>
+                {{ form.clave_sisfe }}
+                {% if form.clave_sisfe.errors %}
+                    <div class="invalid-feedback d-block">{{ form.clave_sisfe.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="col-md-4">
+                <label for="{{ form.tipo_patrocinio.id_for_label }}" class="form-label">{{ form.tipo_patrocinio.label }}</label>
+                {{ form.tipo_patrocinio }}
+                {% if form.tipo_patrocinio.errors %}
+                    <div class="invalid-feedback d-block">{{ form.tipo_patrocinio.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row g-3 mt-4">
+            <div class="col-12">
+                <div class="form-check">
+                    {{ form.expediente_fisico }}
+                    <label class="form-check-label" for="{{ form.expediente_fisico.id_for_label }}">{{ form.expediente_fisico.label }}</label>
+                </div>
+                {% if form.expediente_fisico.errors %}
+                    <div class="invalid-feedback d-block">{{ form.expediente_fisico.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+            <h4>Documentos</h4>
+    
+    {% for doc_form in documento_formset %}
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ doc_form.nombre }}
+            </div>
+            <div class="col-md-6">
+                {{ doc_form.archivo }}
+            </div>
+            <div class="col-md-2">
+                {% if doc_form.DELETE %}
+                    {{ doc_form.DELETE }}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+        <div class="row mt-4">
+            <div class="col-12 text-end">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock body %}

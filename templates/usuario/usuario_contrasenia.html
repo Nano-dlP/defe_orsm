@@ -1,0 +1,44 @@
+{% extends 'core/index.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% block extra_head %}
+  <link rel="stylesheet" href="{% static '/css/forms.css' %}" />
+{% endblock extra_head %} 
+
+{% block body %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+
+      <div class="card shadow border-0">
+        <div class="card-body p-4">
+
+          <h4 class="fw-bold text-center text-primary mb-4">
+            Cambiar contraseña de {{ user.first_name }} {{ user.last_name }}
+          </h4>
+
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <div class="d-grid gap-2 mt-4">
+              <button type="submit" class="btn btn-danger">
+                <i class="fas fa-key me-1"></i> Actualizar contraseña
+              </button>
+              <a href="{% url 'usuario:editar_perfil' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Volver al perfil
+              </a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock body %}
+
+
+
